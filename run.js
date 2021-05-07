@@ -1,4 +1,4 @@
-const fs = require('fs/promises');
+const fs = require('fs');
 const path = require('path');
 const dayjs = require('dayjs');
 const sensor = require('node-dht-sensor').promises;
@@ -11,10 +11,10 @@ if(typeof process.env.RECORDS_DIR !== 'string') {
 
 // Make specified directory when it not maked
 try {
-  await fs.stat(process.env.RECORDS_DIR);
+  fs.statSync(process.env.RECORDS_DIR);
 } catch(err) {
   if(err.code === 'ENOENT') {
-    await fs.mkdir(process.env.RECORDS_DIR);
+    fs.mkdirSync(process.env.RECORDS_DIR);
   } else {
     throw err;
   }
@@ -24,11 +24,11 @@ try {
 // File path: temp-watchdog_{{ YEAR AND MONTH(YYYY/MM) }}_records.csv
 const thisMonthFilePath = path.join(process.env.RECORDS_DIR, `temp-watchdog_${dayjs().format('YYYY/MM')}_records.csv`);
 try {
-  await fs.stat(thisMonthFilePath);
+  fs.statSync(thisMonthFilePath);
 } catch(err) {
   if(err.code === 'ENOENT') {
     // CSV Format: datetime(YYYY/MM/DDTHH:mm:SS),temp(℃),humidity(%)
-    fs.writeFile(thisMonthFilePath, 'datetime,temp,humidity\n');
+    fs.writeFileSync(thisMonthFilePath, 'datetime,temp,humidity\n');
   } else {
     throw err;
   }
@@ -42,4 +42,4 @@ const date = dayjs().format('YYYY/MM/DDTHH:mm:ss');
 console.log(`${date} : Temperature: ${result.temperature}℃, Humidity: ${result.humidity}%`);
 
 // Append file
-fs.appendFile(thisMonthFilePath, `${date},${result.temperature},${result.humidity}\n`);
+fs.appendFileSync(thisMonthFilePath, `${date},${result.temperature},${result.humidity}\n`);
