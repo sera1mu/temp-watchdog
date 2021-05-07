@@ -1,0 +1,13 @@
+{
+  "name": "temp-watchdog",
+  "version": "1.0.0",
+  "description": "Watches and records DHT22 temperature and humdity",
+  "main": "run.js",
+  "author": "Seraimu",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "dayjs": "^1.10.4",
+    "node-dht-sensor": "^0.4.3"
+  }
+}
