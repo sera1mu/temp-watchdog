@@ -21,8 +21,8 @@ try {
 }
 
 // Make this month file when it not maked
-// File path: temp-watchdog_{{ YEAR AND MONTH(YYYY/MM) }}_records.csv
-const thisMonthFilePath = path.join(process.env.RECORDS_DIR, `temp-watchdog_${dayjs().format('YYYY/MM')}_records.csv`);
+// File path: temp-watchdog_{{ YEAR AND MONTH(YYYY-MM) }}_records.csv
+const thisMonthFilePath = path.join(process.env.RECORDS_DIR, `temp-watchdog_${dayjs().format('YYYY-MM')}_records.csv`);
 try {
   fs.statSync(thisMonthFilePath);
 } catch(err) {
@@ -38,7 +38,7 @@ try {
 sensor.read(22, 4, (err, temperature, humidity) => {
   const date = dayjs().format('YYYY/MM/DDTHH:mm:ss');
   // Logging information
-  console.log(`${date} : Temperature: ${result.temperature}℃, Humidity: ${result.humidity}%`);
+  console.log(`${date} : Temperature: ${temperature}℃, Humidity: ${humidity}%`);
   // Append file
-  fs.appendFileSync(thisMonthFilePath, `${date},${result.temperature},${result.humidity}\n`);
+  fs.appendFileSync(thisMonthFilePath, `${date},${temperature},${humidity}\n`);
 });
