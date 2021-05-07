@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const dayjs = require('dayjs');
-const sensor = require('node-dht-sensor').promises;
+const sensor = require('node-dht-sensor');
 
 // Check specified records directory
 if(typeof process.env.RECORDS_DIR !== 'string') {
@@ -35,11 +35,10 @@ try {
 }
 
 // Get data from sensor
-const result = await sensor.read(22, 4);
-const date = dayjs().format('YYYY/MM/DDTHH:mm:ss');
-
-// Logging information
-console.log(`${date} : Temperature: ${result.temperature}℃, Humidity: ${result.humidity}%`);
-
-// Append file
-fs.appendFileSync(thisMonthFilePath, `${date},${result.temperature},${result.humidity}\n`);
+sensor.read(22, 4, (err, temperature, humidity) => {
+  const date = dayjs().format('YYYY/MM/DDTHH:mm:ss');
+  // Logging information
+  console.log(`${date} : Temperature: ${result.temperature}℃, Humidity: ${result.humidity}%`);
+  // Append file
+  fs.appendFileSync(thisMonthFilePath, `${date},${result.temperature},${result.humidity}\n`);
+});
