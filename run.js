@@ -36,6 +36,9 @@ try {
 
 // Get data from sensor
 sensor.read(22, 4, (err, temperature, humidity) => {
+  if(err) {
+    throw new Error(`Failed to read from sensor: ${err}`);
+  }
   const date = dayjs().format('YYYY/MM/DDTHH:mm:ss');
   // Logging information
   console.log(`${date} : Temperature: ${temperature}℃, Humidity: ${humidity}%`);
