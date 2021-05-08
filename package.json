@@ -6,8 +6,16 @@
   "author": "Seraimu",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "build": "tsc"
+  },
   "dependencies": {
     "dayjs": "^1.10.4",
     "node-dht-sensor": "^0.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^15.0.2",
+    "@types/node-dht-sensor": "^0.4.0",
+    "typescript": "^4.2.4"
   }
 }
