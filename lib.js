@@ -42,9 +42,9 @@ const logError = (content) => {
  * @param { number } humidity Readed humidity
  * @param { string } fileName CSV file name
  */
-const recordDataToCSV = (timeStamp, temperature, humidity, fileName) => {
+const recordDataToCSV = async (timeStamp, temperature, humidity, fileName) => {
   const text = `${timeStamp},${temperature},${humidity}`;
-  return fs.appendFile(fileName, text);
+  await fs.appendFile(fileName, text);
 }
 
 /**
