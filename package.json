@@ -6,6 +6,9 @@
   "author": "Seraimu",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "build": "tsc"
+  },
   "dependencies": {
     "dayjs": "^1.10.4",
     "node-dht-sensor": "^0.4.3"
