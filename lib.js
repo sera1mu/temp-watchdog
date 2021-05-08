@@ -24,7 +24,7 @@ const readPin = async (pinNumber) => {
  * @param { number } humidity Readed humidity
  */
 const logData = (timeStamp, temperature, humidity) => {
-  console.log(`${timeStamp} info: Temperature: ${temperature} Humidity: ${humidity}`);
+  console.log(`${timeStamp} info: Temperature: ${temperature}℃ Humidity: ${humidity}%`);
 }
 
 /**
