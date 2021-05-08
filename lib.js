@@ -6,7 +6,7 @@ const fs = require('fs/promises');
 /**
  * Read connected DHT22 pin
  * @param { number } pinNumber DHT22 pin
- * @returns { { temperature: number, humidity: number }}
+ * @returns { Promise<{ temperature: number, humidity: number }> }
  */
 const readPin = async (pinNumber) => {
   try {
@@ -56,6 +56,14 @@ const getTimeStamp = () => {
 }
 
 /**
+ * Get this month record file path
+ * @returns { string } Format: temp-watchdog_YYYY-MM_records.csv
+ */
+const getThisMonthFilePath = () => {
+  return path.join(process.env.RECORDS_DIR, `temp-watchdog_${dayjs().format('YYYY-MM')}_records.csv`);
+}
+
+/**
  * Initialize system
  */
 const init = async () => {
@@ -72,7 +80,7 @@ const init = async () => {
 
   // Make this month file when it not maked
   // File path: temp-watchdog_{{ YEAR AND MONTH(YYYY-MM) }}_records.csv
-  const thisMonthFilePath = path.join(process.env.RECORDS_DIR, `temp-watchdog_${dayjs().format('YYYY-MM')}_records.csv`);
+  const thisMonthFilePath = getThisMonthFilePath();
   try {
     await fs.stat(thisMonthFilePath);
   } catch(err) {
@@ -86,10 +94,10 @@ const init = async () => {
 }
 
 const run = async () => {
-  const data = readPin(process.env.PIN_NUMBER);
+  const data = await readPin(process.env.PIN_NUMBER);
   const timeStamp = getTimeStamp();
   logData(timeStamp, data.temperature, data.humidity);
-  await recordDataToCSV(timeStamp, data.temperature, data.humidity);
+  await recordDataToCSV(timeStamp, data.temperature, data.humidity, getThisMonthFilePath());
 }
 
 module.exports = {
