@@ -2,6 +2,18 @@
 # yarn lockfile v1
 
 
+"@types/node-dht-sensor@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@types/node-dht-sensor/-/node-dht-sensor-0.4.0.tgz#1b347c2787f7e3fea926931169891949faaec08a"
+  integrity sha512-eCT7SZFaxKK8HRPn8W4dE8fD/ysO2rM4rkVySwVsVkWOv6co30IvDvnwmFey41zhA4LT8FOZybsUd5GWwGOXeA==
+  dependencies:
+    "@types/node" "*"
+
+"@types/node@*", "@types/node@^15.0.2":
+  version "15.0.2"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-15.0.2.tgz#51e9c0920d1b45936ea04341aa3e2e58d339fb67"
+  integrity sha512-p68+a+KoxpoB47015IeYZYRrdqMUcpbK8re/zpFB8Ld46LHC1lPEbp3EXgkEhAYEcPvjJF6ZO+869SQ0aH1dcA==
+
 dayjs@^1.10.4:
   version "1.10.4"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.10.4.tgz#8e544a9b8683f61783f570980a8a80eaf54ab1e2"
@@ -18,3 +30,8 @@ node-dht-sensor@^0.4.3:
   integrity sha512-DMJO6UjWiDF3WP0qAgzPXDAAMAT0VVedFbtCUU/jynIRPO2Sa+2zwA3d7ySriha87Tccd4e+kiJoOxSc9BkSKw==
   dependencies:
     node-addon-api "^1.6.3"
+
+typescript@^4.2.4:
+  version "4.2.4"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.2.4.tgz#8610b59747de028fda898a8aef0e103f156d0961"
+  integrity sha512-V+evlYHZnQkaz8TRBuxTA92yZBPotr5H+WhQ7bD3hZUndx5tGOa1fuCgeSjxAzM1RiN5IzvadIXTVefuuwZCRg==
