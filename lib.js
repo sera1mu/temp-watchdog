@@ -52,7 +52,7 @@ const recordDataToCSV = async (timeStamp, temperature, humidity, fileName) => {
  * @returns { string }
  */
 const getTimeStamp = () => {
-  return dayjs().format('YYYY-MM-DDTHH:mm:SS');
+  return dayjs().format('YYYY-MM-DDTHH:mm:ss');
 }
 
 /**
