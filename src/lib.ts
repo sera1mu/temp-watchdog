@@ -1,14 +1,13 @@
-const dayjs = require('dayjs');
-const path = require('path');
-const sensor = require('node-dht-sensor').promises;
-const fs = require('fs/promises');
+import dayjs from 'dayjs';
+import path from 'path';
+import { promises as sensor } from 'node-dht-sensor';
+import fs from 'fs/promises';
 
 /**
  * Read connected DHT22 pin
- * @param { number } pinNumber DHT22 pin
- * @returns { Promise<{ temperature: number, humidity: number }> }
+ * @param pinNumber DHT22 pin
  */
-const readPin = async (pinNumber) => {
+export const readPin = async (pinNumber: number): Promise<{ temperature: number, humidity: number }> => {
   try {
     const result = await sensor.read(22, pinNumber);
     return result;
@@ -19,39 +18,37 @@ const readPin = async (pinNumber) => {
 
 /**
  * Log readed temperature and humidity to console
- * @param { string } timeStamp Format: YYYY-MM-DDTHH:mm:SS
- * @param { number } temperature Readed temperature
- * @param { number } humidity Readed humidity
+ * @param timeStamp Format: YYYY-MM-DDTHH:mm:SS
+ * @param temperature Readed temperature
+ * @param humidity Readed humidity
  */
-const logData = (timeStamp, temperature, humidity) => {
+export const logData = (timeStamp: string, temperature: number, humidity: number): void => {
   console.log(`${timeStamp} info: Temperature: ${temperature}℃ Humidity: ${humidity}%`);
 }
 
 /**
  * Log error details to console
- * @param { string } content
  */
-const logError = (content) => {
+export const logError = (content: string): void => {
   console.error(`${getTimeStamp()} error: ${content}`);
 }
 
 /**
  * Record readed temperature and humidity to CSV file
- * @param { string } timeStamp Format: YYYY-MM-DDTHH:mm:SS
- * @param { number } temperature Readed temperature
- * @param { number } humidity Readed humidity
- * @param { string } fileName CSV file name
+ * @param timeStamp Format: YYYY-MM-DDTHH:mm:SS
+ * @param temperature Readed temperature
+ * @param humidity Readed humidity
+ * @param fileName CSV file name
  */
-const recordDataToCSV = async (timeStamp, temperature, humidity, fileName) => {
+export const recordDataToCSV = async (timeStamp: string, temperature: number, humidity: number, fileName: string) => {
   const text = `${timeStamp},${temperature},${humidity}\n`;
   await fs.appendFile(fileName, text);
 }
 
 /**
  * Get TimeStamp (YYYY-MM-DDTHH:mm:SS)
- * @returns { string }
  */
-const getTimeStamp = () => {
+export const getTimeStamp = (): string => {
   return dayjs().format('YYYY-MM-DDTHH:mm:ss');
 }
 
@@ -59,14 +56,14 @@ const getTimeStamp = () => {
  * Get this month record file path
  * @returns { string } Format: temp-watchdog_YYYY-MM_records.csv
  */
-const getThisMonthFilePath = () => {
+export const getThisMonthFilePath = () => {
   return path.join(process.env.RECORDS_DIR, `temp-watchdog_${dayjs().format('YYYY-MM')}_records.csv`);
 }
 
 /**
  * Initialize system
  */
-const init = async () => {
+export const init = async () => {
   // Make specified directory when it not maked
   try {
     await fs.stat(process.env.RECORDS_DIR);
@@ -93,19 +90,9 @@ const init = async () => {
   }
 }
 
-const run = async () => {
-  const data = await readPin(process.env.PIN_NUMBER);
+export const run = async () => {
+  const data = await readPin(Number(process.env.PIN_NUMBER));
   const timeStamp = getTimeStamp();
   logData(timeStamp, data.temperature, data.humidity);
   await recordDataToCSV(timeStamp, data.temperature, data.humidity, getThisMonthFilePath());
-}
-
-module.exports = {
-  readPin,
-  logData,
-  logError,
-  recordDataToCSV,
-  getTimeStamp,
-  init,
-  run
 }
