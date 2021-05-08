@@ -11,7 +11,11 @@ if(typeof process.env.PIN_NUMBER !== 'string') {
   process.exit(1);
 }
 
-(async() => {
-  await lib.init();
-  await lib.run();
-})();
+lib.init()
+  .then(() => {
+    lib.run().catch((err) => {
+      lib.logError(`Failed to run program: ${err.stack}`);
+    });
+  }).catch((err) => {
+    lib.logError(`Failed to initialize: ${err.stack}`);
+  });
