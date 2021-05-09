@@ -108,12 +108,16 @@ export const init = async (config: Config): Promise<Sheets | undefined> => {
     }
     const sheet = new Sheets(config.googleSheets.sheetId);
 
-    // Authentication
+    // Prepare sheets
     if(typeof config.googleSheets.credentialsFile === 'undefined') {
       throw new Error('Google sheets credentialsFile not specified in configuration.');
     }
+    if(typeof config.googleSheets.sheetTitleFormat === 'undefined') {
+      throw new Error('Google sheets sheetTitleFormat not specified in configuration.');
+    }
+
     const credentials = JSON.parse(await fs.readFile(config.googleSheets.credentialsFile, { encoding: 'utf-8' }));
-    await sheet.prepare(credentials.client_email, credentials.private_key);
+    await sheet.prepare(credentials.client_email, credentials.private_key, config.googleSheets.sheetTitleFormat);
     return sheet;
   }
 }
@@ -130,8 +134,8 @@ export const run = async (config: Config, sheets?: Sheets) => {
   }
 
   if(config.googleSheets?.enable) {
-    if(typeof sheets !== 'undefined') {
-      await sheets.addRecord(timeStamp, data.temperature, data.humidity);
+    if(typeof sheets !== 'undefined' && typeof config.googleSheets.sheetTitleFormat !== 'undefined') {
+      await sheets.addRecord(timeStamp, data.temperature, data.humidity, config.googleSheets.sheetTitleFormat);
     }
   }
 }
