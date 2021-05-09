@@ -1,21 +1,25 @@
 import { logError, init, run } from './lib';
+import { getConfig } from './structures/Config';
 
-// Check specified records directory
-if(typeof process.env.RECORDS_DIR !== 'string') {
-  logError('Please specify recording directory.');
+// Check CONFIG_FILE not undefined
+if(typeof process.env.CONFIG_FILE === 'undefined') {
+  logError('CONFIG_FILE not specified in environment variables.');
   process.exit(1);
 }
 
-if(typeof process.env.PIN_NUMBER !== 'string') {
-  logError('Please specify DHT22 pin number.');
-  process.exit(1);
-}
+const config = getConfig(process.env.CONFIG_FILE);
 
-init()
-  .then(() => {
-    run().catch((err: Error) => {
-      logError(`Failed to run program: ${err.stack}`);
+// Initialize
+init(config)
+  .then((sheets) => {
+    // Run
+    run(config, sheets).catch((err) => {
+      logError(`Failed to execute: ${err.stack}`);
+      process.exit(1);
     });
-  }).catch((err: Error) => {
+  })
+  .catch((err) => {
     logError(`Failed to initialize: ${err.stack}`);
+    process.exit(1);
   });
+

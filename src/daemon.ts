@@ -1,30 +1,30 @@
 import { logError, init, run } from './lib';
+import { getConfig } from './structures/Config';
 
-// Check specified records directory
-if(typeof process.env.RECORDS_DIR !== 'string') {
-  logError('Please specify recording directory.');
+// Check CONFIG_FILE not undefined
+if(typeof process.env.CONFIG_FILE === 'undefined') {
+  logError('CONFIG_FILE not specified in environment variables.');
   process.exit(1);
 }
 
-// Check specified pin number
-if(typeof process.env.PIN_NUMBER !== 'string') {
-  logError('Please specify DHT22 pin number.');
+const config = getConfig(process.env.CONFIG_FILE);
+
+// Check intervalMs not undefined
+if(typeof config.intervalMs === 'undefined') {
+  logError('intervalMs is undefined in configuration.');
   process.exit(1);
 }
 
-// Check specified interval miliseconds
-if(typeof process.env.INTERVAL_MS !== 'string') {
-  logError('Please specify interval miliseconds number.');
-  process.exit(1);
-}
-
-init()
-  .then(() => {
+// Initialize
+init(config)
+  .then((sheets) => {
+    // Set run interval
     setInterval(() => {
-      run().catch((err: Error) => {
-        logError(`Failed to run program: ${err.stack}`);
+      run(config, sheets).catch((err) => {
+        logError(`Failed to execute: ${err.stack}`);
       });
-    }, Number(process.env.INTERVAL_MS));
-  }).catch((err: Error) => {
+    }, Number(config.intervalMs));
+  }).catch((err) => {
     logError(`Failed to initialize: ${err.stack}`);
+    process.exit(1);
   });
