@@ -26,4 +26,5 @@ init(config)
     }, Number(config.intervalMs));
   }).catch((err) => {
     logError(`Failed to initialize: ${err.stack}`);
+    process.exit(1);
   });
