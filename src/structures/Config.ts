@@ -17,6 +17,10 @@ export interface Config {
   }
 }
 
+/**
+ * Get parsed configuration
+ * @param CONFIG_FILE In environment variables
+ */
 export const getConfig = (CONFIG_FILE: string): Config => {
   const config = parse(readFileSync(CONFIG_FILE, { encoding: 'utf-8' }));
   return config;

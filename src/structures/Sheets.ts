@@ -4,9 +4,6 @@ import { GoogleSpreadsheet } from 'google-spreadsheet';
 export class Sheets {
   private doc: GoogleSpreadsheet;
 
-  /**
-   * @param sheetId The sheet ID
-   */
   constructor(sheetId: string) {
     this.doc = new GoogleSpreadsheet(sheetId);
   }
@@ -39,6 +36,10 @@ export class Sheets {
     }
   }
 
+  /**
+   * Check exists this month sheet
+   * @param sheetTitleFormat In configuration
+   */
   async isExistsThisMonthSheet(sheetTitleFormat: string): Promise<boolean> {
     const shouldExistsSheetTitle = Sheets.getThisMonthSheetName(sheetTitleFormat);
     const latestSheet = this.doc.sheetsByTitle[shouldExistsSheetTitle];
@@ -49,6 +50,10 @@ export class Sheets {
     }
   }
 
+  /**
+   * Add record to sheet
+   * @param sheetTitleFormat In configuration
+   */
   async addRecord(timeStamp: string, temperature: number, humidity: number, sheetTitleFormat: string): Promise<void> {
     if(!(await this.isExistsThisMonthSheet(sheetTitleFormat))) {
       throw new Error('This month sheet has not been created. Run <Sheet>.createThisMonthSheet() before run this.');
@@ -59,6 +64,10 @@ export class Sheets {
     return record.save();
   }
 
+  /**
+   * Get this month sheet name
+   * @param sheetTitleFormat In configuration
+   */
   static getThisMonthSheetName(sheetTitleFormat: string): string {
     return dayjs().format(sheetTitleFormat);
   }

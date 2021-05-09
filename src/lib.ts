@@ -122,6 +122,9 @@ export const init = async (config: Config): Promise<Sheets | undefined> => {
   }
 }
 
+/**
+ * Log and record temperature and humidity
+ */
 export const run = async (config: Config, sheets?: Sheets) => {
   const data = await readPin(config.pinNumber);
   const timeStamp = getTimeStamp();
