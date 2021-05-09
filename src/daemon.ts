@@ -10,17 +10,17 @@ if(typeof process.env.CONFIG_FILE === 'undefined') {
 
 const config = getConfig(process.env.CONFIG_FILE);
 
-// Check intervalMs not undefined
-if(typeof config.cronSyntax === 'undefined') {
-  logError('intervalMs is undefined in configuration.');
+// Check cronExpression not undefined
+if(typeof config.cronExpression === 'undefined') {
+  logError('cronExpression is undefined in configuration.');
   process.exit(1);
 }
 
 // Initialize
 init(config)
   .then((sheets) => {
-    if(typeof config.cronSyntax !== 'undefined') {
-      schedule(config.cronSyntax, () => {
+    if(typeof config.cronExpression !== 'undefined') {
+      schedule(config.cronExpression, () => {
         run(config, sheets).catch((err) => {
           logError(`Failed to execute: ${err.stack}`)
         });
