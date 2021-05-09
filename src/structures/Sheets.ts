@@ -22,6 +22,10 @@ export class Sheets {
     });
     // Load info
     await this.doc.loadInfo();
+
+    if(!this.isExistsThisMonthSheet()) {
+      await this.createThisMonthSheet();
+    }
   }
 
   /**
