@@ -38,7 +38,6 @@ export class Sheets {
   async isExistsThisMonthSheet(): Promise<boolean> {
     const shouldExistsSheetTitle = Sheets.getThisMonthSheetName();
     const latestSheet = this.doc.sheetsByTitle[shouldExistsSheetTitle];
-    console.log(typeof latestSheet);
     if(typeof latestSheet === 'undefined') {
       return false;
     } else {
