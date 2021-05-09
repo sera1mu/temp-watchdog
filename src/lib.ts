@@ -48,10 +48,10 @@ export const recordDataToCSV = async (timeStamp: string, temperature: number, hu
 }
 
 /**
- * Get TimeStamp (YYYY-MM-DDTHH:mm:ss)
+ * Get TimeStamp (YYYY-MM-DDTHH:mm:ssZ)
  */
 export const getTimeStamp = (): string => {
-  return dayjs().format('YYYY-MM-DDTHH:mm:ssZ[Z]');
+  return dayjs().format('YYYY-MM-DDTHH:mm:ssZ');
 }
 
 /**
