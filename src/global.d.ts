@@ -2,7 +2,6 @@
 
 declare namespace NodeJS {
   interface ProcessEnv {
-    readonly RECORDS_DIR: string;
-    readonly PIN_NUMBER: string;
+    readonly CONFIG_FILE: string;
   }
 }
