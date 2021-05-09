@@ -1,5 +1,5 @@
-import { fstat, readFileSync } from "fs"
-import { parse } from "toml";
+import { readFileSync } from 'fs'
+import { parse } from 'toml';
 
 export interface Config {
   pinNumber: number;
