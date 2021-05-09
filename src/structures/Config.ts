@@ -3,7 +3,7 @@ import { parse } from 'toml';
 
 export interface Config {
   pinNumber: number;
-  intervalMs?: number;
+  cronSyntax?: string;
   googleSheets?: {
     enable?: boolean;
     sheetTitleFormat?: string;

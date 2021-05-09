@@ -1,5 +1,6 @@
 import { logError, init, run } from './lib';
 import { getConfig } from './structures/Config';
+import { schedule } from 'node-cron';
 
 // Check CONFIG_FILE not undefined
 if(typeof process.env.CONFIG_FILE === 'undefined') {
@@ -10,7 +11,7 @@ if(typeof process.env.CONFIG_FILE === 'undefined') {
 const config = getConfig(process.env.CONFIG_FILE);
 
 // Check intervalMs not undefined
-if(typeof config.intervalMs === 'undefined') {
+if(typeof config.cronSyntax === 'undefined') {
   logError('intervalMs is undefined in configuration.');
   process.exit(1);
 }
@@ -18,12 +19,13 @@ if(typeof config.intervalMs === 'undefined') {
 // Initialize
 init(config)
   .then((sheets) => {
-    // Set run interval
-    setInterval(() => {
-      run(config, sheets).catch((err) => {
-        logError(`Failed to execute: ${err.stack}`);
+    if(typeof config.cronSyntax !== 'undefined') {
+      schedule(config.cronSyntax, () => {
+        run(config, sheets).catch((err) => {
+          logError(`Failed to execute: ${err.stack}`)
+        });
       });
-    }, Number(config.intervalMs));
+    }
   }).catch((err) => {
     logError(`Failed to initialize: ${err.stack}`);
     process.exit(1);
