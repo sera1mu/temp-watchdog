@@ -23,7 +23,7 @@ export class Sheets {
     // Load info
     await this.doc.loadInfo();
 
-    if(!this.isExistsThisMonthSheet()) {
+    if(!(await this.isExistsThisMonthSheet())) {
       await this.createThisMonthSheet();
     }
   }
@@ -50,7 +50,7 @@ export class Sheets {
   }
 
   async addRecord(timeStamp: string, temperature: number, humidity: number): Promise<void> {
-    if(!this.isExistsThisMonthSheet()) {
+    if(!(await this.isExistsThisMonthSheet())) {
       throw new Error('This month sheet has not been created. Run <Sheet>.createThisMonthSheet() before run this.');
     }
 
