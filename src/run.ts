@@ -1,6 +1,8 @@
 import { logError, init, run } from './lib';
 import { getConfig } from './structures/Config';
 
+process.title = 'temp-watchdog';
+
 // Check CONFIG_FILE not undefined
 if(typeof process.env.CONFIG_FILE === 'undefined') {
   logError('CONFIG_FILE not specified in environment variables.');
